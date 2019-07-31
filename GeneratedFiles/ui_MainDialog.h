@@ -41,7 +41,7 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
     QPushButton *Button_SelectFiles;
-    QPushButton *Button_AddFile;
+    QPushButton *Button_AddFiles;
     QPushButton *Button_DeleteFile;
     QPushButton *Button_OpenDir;
     QHBoxLayout *horizontalLayout_7;
@@ -134,6 +134,7 @@ public:
 
         ListView_Files = new QListWidget(MainDialogClass);
         ListView_Files->setObjectName(QStringLiteral("ListView_Files"));
+        ListView_Files->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
         verticalLayout_7->addWidget(ListView_Files);
 
@@ -149,18 +150,20 @@ public:
 
         horizontalLayout_2->addWidget(Button_SelectFiles);
 
-        Button_AddFile = new QPushButton(MainDialogClass);
-        Button_AddFile->setObjectName(QStringLiteral("Button_AddFile"));
+        Button_AddFiles = new QPushButton(MainDialogClass);
+        Button_AddFiles->setObjectName(QStringLiteral("Button_AddFiles"));
 
-        horizontalLayout_2->addWidget(Button_AddFile);
+        horizontalLayout_2->addWidget(Button_AddFiles);
 
         Button_DeleteFile = new QPushButton(MainDialogClass);
         Button_DeleteFile->setObjectName(QStringLiteral("Button_DeleteFile"));
+        Button_DeleteFile->setEnabled(false);
 
         horizontalLayout_2->addWidget(Button_DeleteFile);
 
         Button_OpenDir = new QPushButton(MainDialogClass);
         Button_OpenDir->setObjectName(QStringLiteral("Button_OpenDir"));
+        Button_OpenDir->setEnabled(false);
 
         horizontalLayout_2->addWidget(Button_OpenDir);
 
@@ -502,8 +505,8 @@ public:
         Label_FileListCnt->setBuddy(ListView_Files);
 #endif // QT_NO_SHORTCUT
         QWidget::setTabOrder(ListView_Files, Button_SelectFiles);
-        QWidget::setTabOrder(Button_SelectFiles, Button_AddFile);
-        QWidget::setTabOrder(Button_AddFile, Button_DeleteFile);
+        QWidget::setTabOrder(Button_SelectFiles, Button_AddFiles);
+        QWidget::setTabOrder(Button_AddFiles, Button_DeleteFile);
         QWidget::setTabOrder(Button_DeleteFile, Button_OpenDir);
         QWidget::setTabOrder(Button_OpenDir, RadioButton_AllFileProp);
         QWidget::setTabOrder(RadioButton_AllFileProp, RadioButton_OneFileProp);
@@ -544,6 +547,15 @@ public:
         QObject::connect(CheckButton_AccessDateTime, SIGNAL(toggled(bool)), RadioButton_Access_Access, SLOT(setEnabled(bool)));
         QObject::connect(CheckButton_AccessDateTime, SIGNAL(toggled(bool)), RadioButton_Access_Create, SLOT(setEnabled(bool)));
         QObject::connect(CheckButton_AccessDateTime, SIGNAL(toggled(bool)), RadioButton_Access_Update, SLOT(setEnabled(bool)));
+        QObject::connect(CheckButton_AccessDateTime, SIGNAL(toggled(bool)), DateEdit_AccessDate, SLOT(setEnabled(bool)));
+        QObject::connect(CheckButton_AccessDateTime, SIGNAL(toggled(bool)), TimeEdit_AccessTime, SLOT(setEnabled(bool)));
+        QObject::connect(CheckButton_UpdateDateTime, SIGNAL(toggled(bool)), DateEdit_UpdateDate, SLOT(setEnabled(bool)));
+        QObject::connect(CheckButton_UpdateDateTime, SIGNAL(toggled(bool)), TimeEdit_UpdateTime, SLOT(setEnabled(bool)));
+        QObject::connect(CheckButton_CreateDateTime, SIGNAL(toggled(bool)), TimeEdit_CreateTime, SLOT(setEnabled(bool)));
+        QObject::connect(CheckButton_CreateDateTime, SIGNAL(toggled(bool)), DateEdit_CreateDate, SLOT(setEnabled(bool)));
+        QObject::connect(CheckButton_CreateDateTime, SIGNAL(toggled(bool)), Button_CreateNow, SLOT(setEnabled(bool)));
+        QObject::connect(CheckButton_UpdateDateTime, SIGNAL(toggled(bool)), Button_UpdateNow, SLOT(setEnabled(bool)));
+        QObject::connect(CheckButton_AccessDateTime, SIGNAL(toggled(bool)), Button_AccessNow, SLOT(setEnabled(bool)));
         QObject::connect(RadioButton_Create_Create, SIGNAL(toggled(bool)), DateEdit_CreateDate, SLOT(setEnabled(bool)));
         QObject::connect(RadioButton_Create_Create, SIGNAL(toggled(bool)), TimeEdit_CreateTime, SLOT(setEnabled(bool)));
         QObject::connect(RadioButton_Create_Create, SIGNAL(toggled(bool)), Button_CreateNow, SLOT(setEnabled(bool)));
@@ -580,7 +592,7 @@ public:
         MainDialogClass->setWindowTitle(QApplication::translate("MainDialogClass", "FileTimeChanger", 0));
         Label_FileListCnt->setText(QApplication::translate("MainDialogClass", "\343\203\225\343\202\241\343\202\244\343\203\253\343\203\252\343\202\271\343\203\210 (0/0)(&L):", 0));
         Button_SelectFiles->setText(QApplication::translate("MainDialogClass", "\351\201\270\346\212\236...(&O)", 0));
-        Button_AddFile->setText(QApplication::translate("MainDialogClass", "\350\277\275\345\212\240...(&A)", 0));
+        Button_AddFiles->setText(QApplication::translate("MainDialogClass", "\350\277\275\345\212\240...(&A)", 0));
         Button_DeleteFile->setText(QApplication::translate("MainDialogClass", "\345\211\212\351\231\244(&D)", 0));
         Button_OpenDir->setText(QApplication::translate("MainDialogClass", "\345\240\264\346\211\200\343\202\222\351\226\213\343\201\217...(&F)", 0));
         RadioButton_AllFileProp->setText(QApplication::translate("MainDialogClass", "\343\201\231\343\201\271\343\201\246\343\201\256\343\203\225\343\202\241\343\202\244\343\203\253\343\202\222\345\220\214\344\270\200\343\201\256\346\227\245\346\231\202\343\201\253\345\244\211\346\233\264\343\201\231\343\202\213", 0));

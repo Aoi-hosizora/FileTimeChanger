@@ -1,9 +1,14 @@
 #ifndef MAINDIALOG_H
 #define MAINDIALOG_H
 
+#ifdef WIN32  
+#pragma execution_character_set("utf-8")  
+#endif
+
 #include <QtWidgets/QDialog>
 
 #include "ui_MainDialog.h"
+#include "FileDateTime.h"
 
 class MainDialog : public QDialog {
 	Q_OBJECT
@@ -46,9 +51,21 @@ private slots:
 
 	void on_CheckButton_TransformFolderAlso_toggled(bool);
 	void on_CheckButton_TransformRecursion_toggled(bool);
+
+	// ListView
+	void on_ListView_Files_itemSelectionChanged();
 	
 private:
 	Ui::MainDialogClass ui;
+	QList<FileDateTime> FileLists;
+
+	QList<QString> openFileDlg();
+	QList<FileDateTime> getFileProps(QList<QString>);
+	void addFileToListView(QList<FileDateTime>);
+	void updateListLabel();
+	int getSelectedItemCount();
+	QList<QString> getSelectedFileDir();
+	QList<FileDateTime> getSelectedFileDateTime();
 };
 
 #endif // MAINDIALOG_H

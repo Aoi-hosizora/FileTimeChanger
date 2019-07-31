@@ -47,7 +47,11 @@
     </layout>
    </item>
    <item>
-    <widget class="QListWidget" name="ListView_Files"/>
+    <widget class="QListWidget" name="ListView_Files">
+     <property name="selectionMode">
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -72,7 +76,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="Button_AddFile">
+      <widget class="QPushButton" name="Button_AddFiles">
        <property name="text">
         <string>追加...(&amp;A)</string>
        </property>
@@ -80,6 +84,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="Button_DeleteFile">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>削除(&amp;D)</string>
        </property>
@@ -87,6 +94,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="Button_OpenDir">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>場所を開く...(&amp;F)</string>
        </property>
@@ -603,7 +613,7 @@
  <tabstops>
   <tabstop>ListView_Files</tabstop>
   <tabstop>Button_SelectFiles</tabstop>
-  <tabstop>Button_AddFile</tabstop>
+  <tabstop>Button_AddFiles</tabstop>
   <tabstop>Button_DeleteFile</tabstop>
   <tabstop>Button_OpenDir</tabstop>
   <tabstop>RadioButton_AllFileProp</tabstop>
@@ -795,6 +805,150 @@
     <hint type="destinationlabel">
      <x>406</x>
      <y>552</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CheckButton_AccessDateTime</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>DateEdit_AccessDate</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>81</x>
+     <y>523</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>506</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CheckButton_AccessDateTime</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TimeEdit_AccessTime</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>75</x>
+     <y>507</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>325</x>
+     <y>524</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CheckButton_UpdateDateTime</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>DateEdit_UpdateDate</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>78</x>
+     <y>438</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>432</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CheckButton_UpdateDateTime</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TimeEdit_UpdateTime</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>111</x>
+     <y>451</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>325</x>
+     <y>452</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CheckButton_CreateDateTime</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TimeEdit_CreateTime</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>57</x>
+     <y>379</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>325</x>
+     <y>380</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CheckButton_CreateDateTime</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>DateEdit_CreateDate</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>83</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>206</x>
+     <y>370</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CheckButton_CreateDateTime</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Button_CreateNow</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>68</x>
+     <y>379</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>406</x>
+     <y>381</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CheckButton_UpdateDateTime</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Button_UpdateNow</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>53</x>
+     <y>433</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>406</x>
+     <y>453</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CheckButton_AccessDateTime</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Button_AccessNow</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>523</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>406</x>
+     <y>525</y>
     </hint>
    </hints>
   </connection>

@@ -1,4 +1,9 @@
-﻿#include "MainDialog.h"
+﻿#include <QtCore/QDateTime>
+#include <QtWidgets/QFileDialog>
+#include <QDebug>
+#include <QtCore/QProcess>
+
+#include "MainDialog.h"
 #include "FileDateTime.h"
 #include "Config.hpp"
 
@@ -13,27 +18,129 @@ MainDialog::~MainDialog() {
 // 文件操作
 #pragma region FileList 
 
+// 打开 QFileDlg 选择文件
+QList<QString> MainDialog::openFileDlg() {
+	auto openFileDlg = new QFileDialog(this);
+	openFileDlg->setWindowTitle(tr("ファイルを選択..."));
+	openFileDlg->setNameFilter(tr("ファイル(*.*)"));
+	openFileDlg->setFileMode(QFileDialog::ExistingFiles);
+	// openFileDlg->setAcceptMode(QFileDialog::AcceptOpen);
+
+	if (openFileDlg->exec()) 
+		return openFileDlg->selectedFiles();
+	else
+		return *(new QList<QString>());
+}
+
+// 从 QString[] 中获得 FileDateTime[]
+QList<FileDateTime> MainDialog::getFileProps(QList<QString> fileNames) {
+	QList<FileDateTime> ret;
+	foreach (QString fileName, fileNames) {
+		auto file = new QFile(fileName);
+		auto finfo = new QFileInfo(*file);
+
+		QDateTime createTime = finfo->created();
+		QDateTime updateTime = finfo->lastModified();
+		QDateTime accessTime = finfo->lastRead();
+
+		auto item = new FileDateTime(fileName, createTime, updateTime, accessTime);
+		ret.append(*item);
+	}
+	return ret;
+}
+
 // 選択...(&O)
 void MainDialog::on_Button_SelectFiles_clicked() {
-
+	auto filenameList = openFileDlg();
+	if (!filenameList.empty()) {
+		ui.ListView_Files->clear();
+		FileLists.clear();
+		addFileToListView(getFileProps(filenameList));
+	}
 }
 
 // 追加...(&A)
 void MainDialog::on_Button_AddFiles_clicked() {
-
+	auto filenameList = openFileDlg();
+	if (!filenameList.empty()) {
+		addFileToListView(getFileProps(filenameList));
+	}
 }
 
 // 削除(&D)
 void MainDialog::on_Button_DeleteFile_clicked() {
-
+	if (getSelectedItemCount())
+		foreach (QListWidgetItem *item, ui.ListView_Files->selectedItems()) 
+			ui.ListView_Files->takeItem(ui.ListView_Files->row(item));
+	updateListLabel();
 }
 
 // 場所を開く...(&F)
 void MainDialog::on_Button_OpenDir_clicked() {
+	QString url = ui.ListView_Files->selectedItems().at(0)->text();
 
+	QProcess process;
+	process.startDetached(QString("explorer /select, \"%1\"").arg(QString(url).replace("/", "\\")));
 }
 
 #pragma endregion FileList
+
+// 列表操作
+#pragma region ListView
+
+// 将 FileDateTime[] 不重复添加到列表中
+void MainDialog::addFileToListView(QList<FileDateTime> fileprops) {
+	foreach (FileDateTime fileprop, fileprops) 
+		if (ui.ListView_Files->findItems(fileprop.FileDir, Qt::MatchExactly).isEmpty()) {
+			ui.ListView_Files->addItem(fileprop.FileDir);
+			FileLists.append(fileprop);
+		}
+	updateListLabel();
+}
+
+// 更新列表标签显示内容
+void MainDialog::updateListLabel() {
+	int selcnt = getSelectedItemCount();
+	int allcnt = ui.ListView_Files->count();
+	ui.Label_FileListCnt->setText(tr("ファイルリスト (%1/%2)(&L):").arg(selcnt).arg(allcnt));
+}
+
+// 列表选择更改
+void MainDialog::on_ListView_Files_itemSelectionChanged() {
+	ui.Button_OpenDir->setEnabled(getSelectedItemCount() == 1);
+	ui.Button_DeleteFile->setEnabled(getSelectedItemCount() != 0);
+	updateListLabel();
+}
+
+// 获得选中长度
+int MainDialog::getSelectedItemCount() {
+	return ui.ListView_Files->selectedItems().size();
+}
+
+// 获得选中路径
+QList<QString> MainDialog::getSelectedFileDir() {
+	QList<QString> ret;
+	foreach (auto item, ui.ListView_Files->selectedItems())
+		ret.append(item->text());
+	return ret;
+}
+
+// 获得选中时间信息
+QList<FileDateTime> MainDialog::getSelectedFileDateTime() {
+	QList<FileDateTime> ret;
+	// TODO 算法待改
+	foreach (QString dir, getSelectedFileDir()) {
+		foreach (FileDateTime dft, FileLists) {
+			if (dft.FileDir == dir) {
+				ret.append(dft);
+				break;
+			}
+		}
+	}
+	return ret;
+}
+
+#pragma endregion ListView
 
 // 日期操作
 #pragma region DateTime
@@ -58,7 +165,7 @@ void MainDialog::on_Button_AccessNow_clicked() {
 
 #pragma endregion DateTime
 
-// 配置操作
+// 配置操作和一些 UI 交互
 #pragma region Toggled
 
 // すべてのファイルを同一の日時に変更する

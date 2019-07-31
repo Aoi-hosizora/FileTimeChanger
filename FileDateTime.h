@@ -4,7 +4,6 @@
 class FileDateTime {
 
 public:
-
 	FileDateTime(QString fileDir, QDateTime createTime, QDateTime updateTime, QDateTime accessTime) : 
 		FileDir(fileDir), CreateTime(createTime), UpdateTime(updateTime), AccessTime(accessTime) {};
 
