@@ -112,6 +112,8 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Config.hpp" />
+    <ClInclude Include="FileDateTime.h" />
     <ClInclude Include="GeneratedFiles\ui_MainDialog.h" />
   </ItemGroup>
   <ItemGroup>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>393</width>
-    <height>647</height>
+    <width>429</width>
+    <height>663</height>
    </rect>
   </property>
   <property name="font">
@@ -95,34 +95,47 @@
     </layout>
    </item>
    <item>
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QRadioButton" name="RadioButton_AllFileProp">
-         <property name="text">
-          <string>すべてのファイルを同一の日時に変更する</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="RadioButton_OneFileProp">
-         <property name="text">
-          <string>ファイルごとに別々の日時に変更する</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QFrame" name="frame_4">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
+        <property name="topMargin">
+         <number>1</number>
+        </property>
+        <property name="rightMargin">
+         <number>1</number>
+        </property>
+        <property name="bottomMargin">
+         <number>1</number>
+        </property>
+        <item>
+         <widget class="QRadioButton" name="RadioButton_AllFileProp">
+          <property name="text">
+           <string>すべてのファイルを同一の日時に変更する</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="RadioButton_OneFileProp">
+          <property name="text">
+           <string>ファイルごとに別々の日時に変更する</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_10">
@@ -140,6 +153,13 @@
     </layout>
    </item>
    <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>日時プロファイル</string>
@@ -155,21 +175,21 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="leftMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="bottomMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
-            <widget class="QCheckBox" name="CheckButton_CheckDateTime">
+            <widget class="QCheckBox" name="CheckButton_CreateDateTime">
              <property name="text">
               <string>作成日時(&amp;C):</string>
              </property>
@@ -267,16 +287,16 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <property name="leftMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="bottomMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -379,16 +399,16 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <property name="leftMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="bottomMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -475,23 +495,8 @@
        </widget>
       </item>
      </layout>
-     <zorder>label</zorder>
-     <zorder>label_2</zorder>
-     <zorder>label_3</zorder>
-     <zorder>DateEdit_CreateDate</zorder>
-     <zorder>TimeEdit_CreateTime</zorder>
-     <zorder>DateEdit_UpdateDate</zorder>
-     <zorder>TimeEdit_UpdateTime</zorder>
-     <zorder>DateEdit_AccessDate</zorder>
-     <zorder>TimeEdit_AccessTime</zorder>
-     <zorder>checkBox_4</zorder>
-     <zorder>checkBox_5</zorder>
-     <zorder>line_2</zorder>
      <zorder>line_3</zorder>
-     <zorder></zorder>
-     <zorder></zorder>
-     <zorder></zorder>
-     <zorder></zorder>
+     <zorder>line_2</zorder>
      <zorder>frame</zorder>
      <zorder>frame_2</zorder>
      <zorder>frame_3</zorder>
@@ -500,25 +505,45 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_6">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
-        <widget class="QCheckBox" name="CheckButton_TransformFolderAlso">
-         <property name="text">
-          <string>フォルダーの日時を変更する</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="CheckButton_TransformRecursion">
-         <property name="text">
-          <string>フォルダー内のファイルの日時も変更する</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QFrame" name="frame_5">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
+        <property name="topMargin">
+         <number>1</number>
+        </property>
+        <property name="rightMargin">
+         <number>1</number>
+        </property>
+        <property name="bottomMargin">
+         <number>1</number>
+        </property>
+        <item>
+         <widget class="QCheckBox" name="CheckButton_TransformFolderAlso">
+          <property name="text">
+           <string>フォルダーの日時を変更する</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="CheckButton_TransformRecursion">
+          <property name="text">
+           <string>フォルダー内のファイルの日時も変更する</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_9">
@@ -567,43 +592,12 @@
     </layout>
    </item>
   </layout>
-  <zorder>Button_SelectFiles</zorder>
-  <zorder>Button_Transform</zorder>
-  <zorder>Button_Cancel</zorder>
+  <zorder></zorder>
+  <zorder></zorder>
+  <zorder></zorder>
   <zorder>ListView_Files</zorder>
-  <zorder>line</zorder>
   <zorder>groupBox</zorder>
   <zorder>line</zorder>
-  <zorder>Button_AddFile</zorder>
-  <zorder>Button_DeleteFile</zorder>
-  <zorder>horizontalSpacer</zorder>
-  <zorder>RadioButton_AllFileProp</zorder>
-  <zorder>RadioButton_OneFileProp</zorder>
-  <zorder>radioButton_3</zorder>
-  <zorder>radioButton_4</zorder>
-  <zorder>RadioButton_Create_Create</zorder>
-  <zorder>RadioButton_Create_Update</zorder>
-  <zorder>RadioButton_Create_Access</zorder>
-  <zorder>RadioButton_Update_Access</zorder>
-  <zorder>RadioButton_Update_Update</zorder>
-  <zorder>RadioButton_Update_Create</zorder>
-  <zorder>RadioButton_Access_Create</zorder>
-  <zorder>RadioButton_Access_Access</zorder>
-  <zorder>RadioButton_Access_Update</zorder>
-  <zorder></zorder>
-  <zorder></zorder>
-  <zorder>CheckButton_TransformRecursion</zorder>
-  <zorder>CheckButton_TransformFolderAlso</zorder>
-  <zorder>horizontalSpacer_9</zorder>
-  <zorder>horizontalSpacer_10</zorder>
-  <zorder>Label_FileListCnt</zorder>
-  <zorder>horizontalSpacer_11</zorder>
-  <zorder></zorder>
-  <zorder></zorder>
-  <zorder></zorder>
-  <zorder></zorder>
-  <zorder></zorder>
-  <zorder></zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
@@ -614,21 +608,24 @@
   <tabstop>Button_OpenDir</tabstop>
   <tabstop>RadioButton_AllFileProp</tabstop>
   <tabstop>RadioButton_OneFileProp</tabstop>
-  <tabstop>CheckButton_CheckDateTime</tabstop>
+  <tabstop>CheckButton_CreateDateTime</tabstop>
   <tabstop>DateEdit_CreateDate</tabstop>
   <tabstop>TimeEdit_CreateTime</tabstop>
+  <tabstop>Button_CreateNow</tabstop>
   <tabstop>RadioButton_Create_Create</tabstop>
   <tabstop>RadioButton_Create_Update</tabstop>
   <tabstop>RadioButton_Create_Access</tabstop>
   <tabstop>CheckButton_UpdateDateTime</tabstop>
   <tabstop>DateEdit_UpdateDate</tabstop>
   <tabstop>TimeEdit_UpdateTime</tabstop>
+  <tabstop>Button_UpdateNow</tabstop>
   <tabstop>RadioButton_Update_Update</tabstop>
   <tabstop>RadioButton_Update_Create</tabstop>
   <tabstop>RadioButton_Update_Access</tabstop>
   <tabstop>CheckButton_AccessDateTime</tabstop>
   <tabstop>DateEdit_AccessDate</tabstop>
   <tabstop>TimeEdit_AccessTime</tabstop>
+  <tabstop>Button_AccessNow</tabstop>
   <tabstop>RadioButton_Access_Access</tabstop>
   <tabstop>RadioButton_Access_Create</tabstop>
   <tabstop>RadioButton_Access_Update</tabstop>
@@ -648,8 +645,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>364</x>
-     <y>621</y>
+     <x>418</x>
+     <y>652</y>
     </hint>
     <hint type="destinationlabel">
      <x>381</x>
@@ -658,8 +655,8 @@
    </hints>
   </connection>
   <connection>
-   <sender>CheckButton_CheckDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <sender>CheckButton_CreateDateTime</sender>
+   <signal>toggled(bool)</signal>
    <receiver>RadioButton_Create_Create</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
@@ -674,8 +671,8 @@
    </hints>
   </connection>
   <connection>
-   <sender>CheckButton_CheckDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <sender>CheckButton_CreateDateTime</sender>
+   <signal>toggled(bool)</signal>
    <receiver>RadioButton_Create_Update</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
@@ -690,8 +687,8 @@
    </hints>
   </connection>
   <connection>
-   <sender>CheckButton_CheckDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <sender>CheckButton_CreateDateTime</sender>
+   <signal>toggled(bool)</signal>
    <receiver>RadioButton_Create_Access</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
@@ -707,7 +704,7 @@
   </connection>
   <connection>
    <sender>CheckButton_UpdateDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>RadioButton_Update_Update</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
@@ -716,20 +713,20 @@
      <y>435</y>
     </hint>
     <hint type="destinationlabel">
-     <x>94</x>
-     <y>467</y>
+     <x>170</x>
+     <y>480</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>CheckButton_UpdateDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>RadioButton_Update_Create</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>78</x>
-     <y>428</y>
+     <x>100</x>
+     <y>451</y>
     </hint>
     <hint type="destinationlabel">
      <x>229</x>
@@ -739,7 +736,7 @@
   </connection>
   <connection>
    <sender>CheckButton_UpdateDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>RadioButton_Update_Access</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
@@ -755,7 +752,7 @@
   </connection>
   <connection>
    <sender>CheckButton_AccessDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>RadioButton_Access_Access</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
@@ -764,20 +761,20 @@
      <y>510</y>
     </hint>
     <hint type="destinationlabel">
-     <x>108</x>
-     <y>526</y>
+     <x>170</x>
+     <y>552</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>CheckButton_AccessDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>RadioButton_Access_Create</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>29</x>
-     <y>502</y>
+     <x>51</x>
+     <y>523</y>
     </hint>
     <hint type="destinationlabel">
      <x>197</x>
@@ -787,161 +784,449 @@
   </connection>
   <connection>
    <sender>CheckButton_AccessDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>RadioButton_Access_Update</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>50</x>
-     <y>498</y>
+     <x>72</x>
+     <y>523</y>
     </hint>
     <hint type="destinationlabel">
-     <x>310</x>
-     <y>531</y>
+     <x>406</x>
+     <y>552</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>CheckButton_AccessDateTime</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>DateEdit_AccessDate</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>59</x>
-     <y>504</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>506</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>CheckButton_AccessDateTime</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>TimeEdit_AccessTime</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>75</x>
-     <y>507</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>243</x>
-     <y>502</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>CheckButton_UpdateDateTime</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>DateEdit_UpdateDate</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>78</x>
-     <y>438</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>170</x>
-     <y>432</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>CheckButton_UpdateDateTime</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>TimeEdit_UpdateTime</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>90</x>
-     <y>431</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>261</x>
-     <y>428</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>CheckButton_CheckDateTime</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>TimeEdit_CreateTime</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>35</x>
-     <y>360</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>262</x>
-     <y>357</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>CheckButton_CheckDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <sender>RadioButton_Create_Create</sender>
+   <signal>toggled(bool)</signal>
    <receiver>DateEdit_CreateDate</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>83</x>
-     <y>370</y>
+     <x>142</x>
+     <y>402</y>
     </hint>
     <hint type="destinationlabel">
-     <x>206</x>
-     <y>370</y>
+     <x>176</x>
+     <y>377</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>CheckButton_CheckDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <sender>RadioButton_Create_Create</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TimeEdit_CreateTime</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>170</x>
+     <y>390</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>272</x>
+     <y>376</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Create_Create</sender>
+   <signal>toggled(bool)</signal>
    <receiver>Button_CreateNow</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>46</x>
-     <y>359</y>
+     <x>132</x>
+     <y>399</y>
     </hint>
     <hint type="destinationlabel">
-     <x>322</x>
-     <y>363</y>
+     <x>371</x>
+     <y>368</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>CheckButton_UpdateDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <sender>RadioButton_Create_Update</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>DateEdit_CreateDate</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>221</x>
+     <y>398</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>197</x>
+     <y>377</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Create_Update</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TimeEdit_CreateTime</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>269</x>
+     <y>394</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>292</x>
+     <y>367</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Create_Update</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Button_CreateNow</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>269</x>
+     <y>398</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>354</x>
+     <y>376</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Create_Access</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>DateEdit_CreateDate</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>369</x>
+     <y>400</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>203</x>
+     <y>369</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Create_Access</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TimeEdit_CreateTime</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>338</x>
+     <y>400</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>269</x>
+     <y>379</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Create_Access</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Button_CreateNow</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>385</x>
+     <y>397</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>384</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Update_Update</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>DateEdit_UpdateDate</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>170</x>
+     <y>462</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>170</x>
+     <y>445</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Update_Update</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TimeEdit_UpdateTime</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>133</x>
+     <y>470</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>269</x>
+     <y>449</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Update_Update</sender>
+   <signal>toggled(bool)</signal>
    <receiver>Button_UpdateNow</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>53</x>
-     <y>433</y>
+     <x>141</x>
+     <y>474</y>
     </hint>
     <hint type="destinationlabel">
-     <x>323</x>
-     <y>437</y>
+     <x>356</x>
+     <y>447</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>CheckButton_AccessDateTime</sender>
-   <signal>clicked(bool)</signal>
+   <sender>RadioButton_Update_Create</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>DateEdit_UpdateDate</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>229</x>
+     <y>472</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>186</x>
+     <y>450</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Update_Create</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TimeEdit_UpdateTime</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>288</x>
+     <y>462</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>288</x>
+     <y>443</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Update_Create</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Button_UpdateNow</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>255</x>
+     <y>474</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>443</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Update_Access</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>DateEdit_UpdateDate</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>394</x>
+     <y>477</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>229</x>
+     <y>448</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Update_Access</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TimeEdit_UpdateTime</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>355</x>
+     <y>472</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>290</x>
+     <y>447</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Update_Access</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Button_UpdateNow</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>474</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>394</x>
+     <y>444</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Access_Access</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>DateEdit_AccessDate</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>136</x>
+     <y>545</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>151</x>
+     <y>514</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Access_Access</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TimeEdit_AccessTime</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>157</x>
+     <y>540</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>257</x>
+     <y>514</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Access_Access</sender>
+   <signal>toggled(bool)</signal>
    <receiver>Button_AccessNow</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>78</x>
-     <y>499</y>
+     <x>146</x>
+     <y>540</y>
     </hint>
     <hint type="destinationlabel">
-     <x>342</x>
-     <y>500</y>
+     <x>355</x>
+     <y>514</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Access_Create</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>DateEdit_AccessDate</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>251</x>
+     <y>540</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>510</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Access_Create</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TimeEdit_AccessTime</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>279</x>
+     <y>546</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>283</x>
+     <y>514</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Access_Create</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Button_AccessNow</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>267</x>
+     <y>539</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>350</x>
+     <y>518</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Access_Update</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>DateEdit_AccessDate</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>325</x>
+     <y>546</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>209</x>
+     <y>514</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Access_Update</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TimeEdit_AccessTime</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>339</x>
+     <y>542</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>274</x>
+     <y>514</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioButton_Access_Update</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Button_AccessNow</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>364</x>
+     <y>542</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>362</x>
+     <y>520</y>
     </hint>
    </hints>
   </connection>
