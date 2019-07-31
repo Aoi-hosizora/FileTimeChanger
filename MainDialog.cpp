@@ -9,6 +9,16 @@
 
 MainDialog::MainDialog(QWidget *parent) : QDialog(parent) {
 	ui.setupUi(this);
+	on_ListView_Files_itemSelectionChanged();
+
+	connect(ui.DateEdit_CreateDate, SIGNAL(dateChanged(QDate)), this, SLOT(updateDateTime()));
+	connect(ui.TimeEdit_CreateTime, SIGNAL(timeChanged(QTime)), this, SLOT(updateDateTime()));
+	connect(ui.DateEdit_UpdateDate, SIGNAL(dateChanged(QDate)), this, SLOT(updateDateTime()));
+	connect(ui.TimeEdit_UpdateTime, SIGNAL(timeChanged(QTime)), this, SLOT(updateDateTime()));
+	connect(ui.DateEdit_AccessDate, SIGNAL(dateChanged(QDate)), this, SLOT(updateDateTime()));
+	connect(ui.TimeEdit_AccessTime, SIGNAL(timeChanged(QTime)), this, SLOT(updateDateTime()));
+
+	ui.Button_SelectFiles->setDefault(false);
 }
 
 MainDialog::~MainDialog() {
@@ -107,8 +117,22 @@ void MainDialog::updateListLabel() {
 
 // 列表选择更改
 void MainDialog::on_ListView_Files_itemSelectionChanged() {
-	ui.Button_OpenDir->setEnabled(getSelectedItemCount() == 1);
-	ui.Button_DeleteFile->setEnabled(getSelectedItemCount() != 0);
+	int cnt = getSelectedItemCount();
+	ui.Button_OpenDir->setEnabled(cnt == 1);
+
+	ui.Button_DeleteFile->setEnabled(cnt != 0);
+	ui.GroupBox_TimeProp->setEnabled(cnt != 0);
+	ui.Button_Transform->setEnabled(cnt != 0);
+
+	ui.RadioButton_AllFileProp->setEnabled(cnt != 1 && cnt != 0);
+	ui.RadioButton_OneFileProp->setEnabled(cnt != 1 && cnt != 0);
+
+	if (cnt != 0) {
+		FileDateTime *fdt = getSelectedFirstFileDateTime();	
+		if (fdt != nullptr)
+			setDateTimeOfOneFile(*fdt);
+	}
+
 	updateListLabel();
 }
 
@@ -128,16 +152,30 @@ QList<QString> MainDialog::getSelectedFileDir() {
 // 获得选中时间信息
 QList<FileDateTime> MainDialog::getSelectedFileDateTime() {
 	QList<FileDateTime> ret;
-	// TODO 算法待改
 	foreach (QString dir, getSelectedFileDir()) {
-		foreach (FileDateTime dft, FileLists) {
-			if (dft.FileDir == dir) {
-				ret.append(dft);
-				break;
-			}
-		}
+		FileDateTime *fdt = getFileDateTimeFromDir(dir);
+		if (fdt != nullptr)
+			ret.append(*fdt);
 	}
 	return ret;
+}
+
+// 获得选中的第一条信息
+FileDateTime *MainDialog::getSelectedFirstFileDateTime() {
+	if (ui.ListView_Files->selectedItems().length() > 0) {
+		QString dir = ui.ListView_Files->selectedItems().at(0)->text();
+		return getFileDateTimeFromDir(dir);
+	}
+	return nullptr;
+}
+
+// 根据文件路径获取时间信息
+FileDateTime *MainDialog::getFileDateTimeFromDir(QString dir) {
+	// TODO 算法待改
+	for (int i = 0; i < FileLists.count(); i++) 
+		if (dir == FileLists.at(i).FileDir)
+			return const_cast<FileDateTime *>(&(FileLists.at(i)));
+	return nullptr;
 }
 
 #pragma endregion ListView
@@ -163,6 +201,73 @@ void MainDialog::on_Button_AccessNow_clicked() {
 	ui.TimeEdit_AccessTime->setTime(QTime::currentTime());
 }
 
+// 作成日時(&C) デフォルト
+void MainDialog::on_Button_CreateDefault_clicked() {
+	FileDateTime *fdt = getSelectedFirstFileDateTime();
+	if (fdt != nullptr) {
+		ui.DateEdit_CreateDate->setDateTime(fdt->CreateTime);
+		ui.TimeEdit_CreateTime->setDateTime(fdt->CreateTime);
+	}
+}
+
+// 更新日時(&U) デフォルト
+void MainDialog::on_Button_UpdateDefault_clicked() {
+	FileDateTime *fdt = getSelectedFirstFileDateTime();
+	if (fdt != nullptr) {
+		ui.DateEdit_UpdateDate->setDateTime(fdt->UpdateTime);
+		ui.TimeEdit_UpdateTime->setDateTime(fdt->UpdateTime);
+	}
+}
+
+// ｱｸｾｽ日時(&E) デフォルト
+void MainDialog::on_Button_AccessDefault_clicked() {
+	FileDateTime *fdt = getSelectedFirstFileDateTime();
+	if (fdt != nullptr) {
+		ui.DateEdit_AccessDate->setDateTime(fdt->AccessTime);
+		ui.TimeEdit_AccessTime->setDateTime(fdt->AccessTime);
+	}
+}
+
+void MainDialog::setDateTimeOfOneFile(FileDateTime fdt) {
+	ui.DateEdit_CreateDate->setDateTime(fdt.CreateTime);
+	ui.TimeEdit_CreateTime->setDateTime(fdt.CreateTime);
+	ui.DateEdit_UpdateDate->setDateTime(fdt.UpdateTime);
+	ui.TimeEdit_UpdateTime->setDateTime(fdt.UpdateTime);
+	ui.DateEdit_AccessDate->setDateTime(fdt.AccessTime);
+	ui.TimeEdit_AccessTime->setDateTime(fdt.AccessTime);
+};
+
+// 根据 Config 同步更新数据
+void MainDialog::updateDateTime() {
+
+	if (Config::IsCreateDateTimeUseUpdate) {
+		ui.DateEdit_CreateDate->setDateTime(ui.DateEdit_UpdateDate->dateTime());
+		ui.TimeEdit_CreateTime->setDateTime(ui.TimeEdit_UpdateTime->dateTime());
+	}
+	else if (Config::IsCreateDateTimeUseAccess) {
+		ui.DateEdit_CreateDate->setDateTime(ui.DateEdit_AccessDate->dateTime());
+		ui.TimeEdit_CreateTime->setDateTime(ui.TimeEdit_AccessTime->dateTime());
+	}
+
+	if (Config::IsUpdateDateTimeUseCreate) {
+		ui.DateEdit_UpdateDate->setDateTime(ui.DateEdit_CreateDate->dateTime());
+		ui.TimeEdit_UpdateTime->setDateTime(ui.TimeEdit_CreateTime->dateTime());
+	}
+	else if (Config::IsUpdateDateTimeUseAccess) {
+		ui.DateEdit_UpdateDate->setDateTime(ui.DateEdit_AccessDate->dateTime());
+		ui.TimeEdit_UpdateTime->setDateTime(ui.TimeEdit_AccessTime->dateTime());
+	}
+
+	if (Config::IsAccessDateTimeUseCreate) {
+		ui.DateEdit_AccessDate->setDateTime(ui.DateEdit_CreateDate->dateTime());
+		ui.TimeEdit_AccessTime->setDateTime(ui.TimeEdit_CreateTime->dateTime());
+	}
+	else if (Config::IsAccessDateTimeUseUpdate) {
+		ui.DateEdit_AccessDate->setDateTime(ui.DateEdit_UpdateDate->dateTime());
+		ui.TimeEdit_AccessTime->setDateTime(ui.TimeEdit_UpdateTime->dateTime());
+	}
+}
+
 #pragma endregion DateTime
 
 // 配置操作和一些 UI 交互
@@ -185,6 +290,7 @@ void MainDialog::on_CheckButton_CreateDateTime_toggled(bool isChecked) {
 	ui.DateEdit_CreateDate->setEnabled(Config::IsCreateDateTimeUseCreate && isChecked);
 	ui.TimeEdit_CreateTime->setEnabled(Config::IsCreateDateTimeUseCreate && isChecked);
 	ui.Button_CreateNow->setEnabled(Config::IsCreateDateTimeUseCreate && isChecked);
+	ui.Button_CreateDefault->setEnabled(Config::IsCreateDateTimeUseCreate && isChecked);
 }
 
 // 更新日時(&U) UI <<
@@ -194,6 +300,7 @@ void MainDialog::on_CheckButton_UpdateDateTime_toggled(bool isChecked) {
 	ui.DateEdit_UpdateDate->setEnabled(Config::IsUpdateDateTimeUseUpdate && isChecked);
 	ui.TimeEdit_UpdateTime->setEnabled(Config::IsUpdateDateTimeUseUpdate && isChecked);
 	ui.Button_UpdateNow->setEnabled(Config::IsUpdateDateTimeUseUpdate && isChecked);
+	ui.Button_UpdateDefault->setEnabled(Config::IsUpdateDateTimeUseUpdate && isChecked);
 }
 
 // ｱｸｾｽ日時(&E) UI <<
@@ -203,51 +310,61 @@ void MainDialog::on_CheckButton_AccessDateTime_toggled(bool isChecked) {
 	ui.DateEdit_AccessDate->setEnabled(Config::IsAccessDateTimeUseAccess && isChecked);
 	ui.TimeEdit_AccessTime->setEnabled(Config::IsAccessDateTimeUseAccess && isChecked);
 	ui.Button_AccessNow->setEnabled(Config::IsAccessDateTimeUseAccess && isChecked);
+	ui.Button_AccessDefault->setEnabled(Config::IsAccessDateTimeUseAccess && isChecked);
 }
 
 // 作成日時(&C) 別の日時
 void MainDialog::on_RadioButton_Create_Create_toggled(bool isChecked) {
 	Config::IsCreateDateTimeUseCreate = isChecked;
+	updateDateTime();
 }
 
 // 作成日時(&C) 更新日時と合わせ
 void MainDialog::on_RadioButton_Create_Update_toggled(bool isChecked) {
 	Config::IsCreateDateTimeUseUpdate = isChecked;
+	updateDateTime();
 }
 
 // 作成日時(&C) ｱｸｾｽ日時と合わせ
 void MainDialog::on_RadioButton_Create_Access_toggled(bool isChecked) {
 	Config::IsCreateDateTimeUseAccess = isChecked;
+	updateDateTime();
 }
 
 // 更新日時(&U) 別の日時
 void MainDialog::on_RadioButton_Update_Update_toggled(bool isChecked) {
 	Config::IsUpdateDateTimeUseUpdate = isChecked;
+	updateDateTime();
 }
 
 // 更新日時(&U) 作成日時と合わせ
 void MainDialog::on_RadioButton_Update_Create_toggled(bool isChecked) {
 	Config::IsUpdateDateTimeUseCreate = isChecked;
+	updateDateTime();
 }
 
 // 更新日時(&U) ｱｸｾｽ日時と合わせ
 void MainDialog::on_RadioButton_Update_Access_toggled(bool isChecked) {
 	Config::IsUpdateDateTimeUseAccess = isChecked;
+	updateDateTime();
 }
 
 // ｱｸｾｽ日時(&E) 別の日時
 void MainDialog::on_RadioButton_Access_Access_toggled(bool isChecked) {
 	Config::IsAccessDateTimeUseAccess = isChecked;
+	updateDateTime();
 }
 
 // ｱｸｾｽ日時(&E) 作成日時と合わせ
 void MainDialog::on_RadioButton_Access_Create_toggled(bool isChecked) {
 	Config::IsAccessDateTimeUseCreate = isChecked;
+	updateDateTime();
 }
 
 // ｱｸｾｽ日時(&E) 更新日時と合わせ
 void MainDialog::on_RadioButton_Access_Update_toggled(bool isChecked) {
 	Config::IsAccessDateTimeUseUpdate = isChecked;
+	updateDateTime();
 }
 
 // フォルダーの日時を変更する

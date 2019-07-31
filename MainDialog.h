@@ -28,6 +28,10 @@ private slots:
 	void on_Button_UpdateNow_clicked();
 	void on_Button_AccessNow_clicked();
 
+	void on_Button_CreateDefault_clicked();
+	void on_Button_UpdateDefault_clicked();
+	void on_Button_AccessDefault_clicked();
+
 	void on_Button_Transform_clicked();
 
 	// Toggled
@@ -54,6 +58,7 @@ private slots:
 
 	// ListView
 	void on_ListView_Files_itemSelectionChanged();
+	void updateDateTime();
 	
 private:
 	Ui::MainDialogClass ui;
@@ -66,6 +71,9 @@ private:
 	int getSelectedItemCount();
 	QList<QString> getSelectedFileDir();
 	QList<FileDateTime> getSelectedFileDateTime();
+	FileDateTime *getSelectedFirstFileDateTime();
+	FileDateTime *getFileDateTimeFromDir(QString);
+	void setDateTimeOfOneFile(FileDateTime);
 };
 
 #endif // MAINDIALOG_H

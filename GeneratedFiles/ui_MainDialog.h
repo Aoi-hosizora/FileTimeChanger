@@ -51,7 +51,7 @@ public:
     QRadioButton *RadioButton_OneFileProp;
     QSpacerItem *horizontalSpacer_10;
     QFrame *line;
-    QGroupBox *groupBox;
+    QGroupBox *GroupBox_TimeProp;
     QVBoxLayout *verticalLayout_6;
     QFrame *frame;
     QVBoxLayout *verticalLayout_2;
@@ -66,6 +66,7 @@ public:
     QRadioButton *RadioButton_Create_Create;
     QRadioButton *RadioButton_Create_Update;
     QRadioButton *RadioButton_Create_Access;
+    QPushButton *Button_CreateDefault;
     QFrame *line_2;
     QFrame *frame_2;
     QVBoxLayout *verticalLayout_3;
@@ -80,6 +81,7 @@ public:
     QRadioButton *RadioButton_Update_Update;
     QRadioButton *RadioButton_Update_Create;
     QRadioButton *RadioButton_Update_Access;
+    QPushButton *Button_UpdateDefault;
     QFrame *line_3;
     QFrame *frame_3;
     QVBoxLayout *verticalLayout_4;
@@ -94,6 +96,7 @@ public:
     QRadioButton *RadioButton_Access_Access;
     QRadioButton *RadioButton_Access_Create;
     QRadioButton *RadioButton_Access_Update;
+    QPushButton *Button_AccessDefault;
     QHBoxLayout *horizontalLayout_6;
     QFrame *frame_5;
     QVBoxLayout *verticalLayout_5;
@@ -109,7 +112,7 @@ public:
     {
         if (MainDialogClass->objectName().isEmpty())
             MainDialogClass->setObjectName(QStringLiteral("MainDialogClass"));
-        MainDialogClass->resize(429, 663);
+        MainDialogClass->resize(450, 663);
         QFont font;
         font.setFamily(QStringLiteral("Yu Gothic UI"));
         MainDialogClass->setFont(font);
@@ -210,13 +213,13 @@ public:
 
         verticalLayout_7->addWidget(line);
 
-        groupBox = new QGroupBox(MainDialogClass);
-        groupBox->setObjectName(QStringLiteral("groupBox"));
-        verticalLayout_6 = new QVBoxLayout(groupBox);
+        GroupBox_TimeProp = new QGroupBox(MainDialogClass);
+        GroupBox_TimeProp->setObjectName(QStringLiteral("GroupBox_TimeProp"));
+        verticalLayout_6 = new QVBoxLayout(GroupBox_TimeProp);
         verticalLayout_6->setSpacing(6);
         verticalLayout_6->setContentsMargins(11, 11, 11, 11);
         verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
-        frame = new QFrame(groupBox);
+        frame = new QFrame(GroupBox_TimeProp);
         frame->setObjectName(QStringLiteral("frame"));
         frame->setFrameShape(QFrame::StyledPanel);
         frame->setFrameShadow(QFrame::Raised);
@@ -279,20 +282,25 @@ public:
 
         horizontalLayout_9->addWidget(RadioButton_Create_Access);
 
+        Button_CreateDefault = new QPushButton(frame);
+        Button_CreateDefault->setObjectName(QStringLiteral("Button_CreateDefault"));
+
+        horizontalLayout_9->addWidget(Button_CreateDefault);
+
 
         verticalLayout_2->addLayout(horizontalLayout_9);
 
 
         verticalLayout_6->addWidget(frame);
 
-        line_2 = new QFrame(groupBox);
+        line_2 = new QFrame(GroupBox_TimeProp);
         line_2->setObjectName(QStringLiteral("line_2"));
         line_2->setFrameShape(QFrame::HLine);
         line_2->setFrameShadow(QFrame::Sunken);
 
         verticalLayout_6->addWidget(line_2);
 
-        frame_2 = new QFrame(groupBox);
+        frame_2 = new QFrame(GroupBox_TimeProp);
         frame_2->setObjectName(QStringLiteral("frame_2"));
         frame_2->setFrameShape(QFrame::StyledPanel);
         frame_2->setFrameShadow(QFrame::Raised);
@@ -355,20 +363,25 @@ public:
 
         horizontalLayout_10->addWidget(RadioButton_Update_Access);
 
+        Button_UpdateDefault = new QPushButton(frame_2);
+        Button_UpdateDefault->setObjectName(QStringLiteral("Button_UpdateDefault"));
+
+        horizontalLayout_10->addWidget(Button_UpdateDefault);
+
 
         verticalLayout_3->addLayout(horizontalLayout_10);
 
 
         verticalLayout_6->addWidget(frame_2);
 
-        line_3 = new QFrame(groupBox);
+        line_3 = new QFrame(GroupBox_TimeProp);
         line_3->setObjectName(QStringLiteral("line_3"));
         line_3->setFrameShape(QFrame::HLine);
         line_3->setFrameShadow(QFrame::Sunken);
 
         verticalLayout_6->addWidget(line_3);
 
-        frame_3 = new QFrame(groupBox);
+        frame_3 = new QFrame(GroupBox_TimeProp);
         frame_3->setObjectName(QStringLiteral("frame_3"));
         frame_3->setFrameShape(QFrame::StyledPanel);
         frame_3->setFrameShadow(QFrame::Raised);
@@ -431,6 +444,11 @@ public:
 
         horizontalLayout_11->addWidget(RadioButton_Access_Update);
 
+        Button_AccessDefault = new QPushButton(frame_3);
+        Button_AccessDefault->setObjectName(QStringLiteral("Button_AccessDefault"));
+
+        horizontalLayout_11->addWidget(Button_AccessDefault);
+
 
         verticalLayout_4->addLayout(horizontalLayout_11);
 
@@ -443,7 +461,7 @@ public:
         frame_2->raise();
         frame_3->raise();
 
-        verticalLayout_7->addWidget(groupBox);
+        verticalLayout_7->addWidget(GroupBox_TimeProp);
 
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setSpacing(6);
@@ -499,7 +517,7 @@ public:
         verticalLayout_7->addLayout(horizontalLayout);
 
         ListView_Files->raise();
-        groupBox->raise();
+        GroupBox_TimeProp->raise();
         line->raise();
 #ifndef QT_NO_SHORTCUT
         Label_FileListCnt->setBuddy(ListView_Files);
@@ -517,21 +535,24 @@ public:
         QWidget::setTabOrder(Button_CreateNow, RadioButton_Create_Create);
         QWidget::setTabOrder(RadioButton_Create_Create, RadioButton_Create_Update);
         QWidget::setTabOrder(RadioButton_Create_Update, RadioButton_Create_Access);
-        QWidget::setTabOrder(RadioButton_Create_Access, CheckButton_UpdateDateTime);
+        QWidget::setTabOrder(RadioButton_Create_Access, Button_CreateDefault);
+        QWidget::setTabOrder(Button_CreateDefault, CheckButton_UpdateDateTime);
         QWidget::setTabOrder(CheckButton_UpdateDateTime, DateEdit_UpdateDate);
         QWidget::setTabOrder(DateEdit_UpdateDate, TimeEdit_UpdateTime);
         QWidget::setTabOrder(TimeEdit_UpdateTime, Button_UpdateNow);
         QWidget::setTabOrder(Button_UpdateNow, RadioButton_Update_Update);
         QWidget::setTabOrder(RadioButton_Update_Update, RadioButton_Update_Create);
         QWidget::setTabOrder(RadioButton_Update_Create, RadioButton_Update_Access);
-        QWidget::setTabOrder(RadioButton_Update_Access, CheckButton_AccessDateTime);
+        QWidget::setTabOrder(RadioButton_Update_Access, Button_UpdateDefault);
+        QWidget::setTabOrder(Button_UpdateDefault, CheckButton_AccessDateTime);
         QWidget::setTabOrder(CheckButton_AccessDateTime, DateEdit_AccessDate);
         QWidget::setTabOrder(DateEdit_AccessDate, TimeEdit_AccessTime);
         QWidget::setTabOrder(TimeEdit_AccessTime, Button_AccessNow);
         QWidget::setTabOrder(Button_AccessNow, RadioButton_Access_Access);
         QWidget::setTabOrder(RadioButton_Access_Access, RadioButton_Access_Create);
         QWidget::setTabOrder(RadioButton_Access_Create, RadioButton_Access_Update);
-        QWidget::setTabOrder(RadioButton_Access_Update, CheckButton_TransformFolderAlso);
+        QWidget::setTabOrder(RadioButton_Access_Update, Button_AccessDefault);
+        QWidget::setTabOrder(Button_AccessDefault, CheckButton_TransformFolderAlso);
         QWidget::setTabOrder(CheckButton_TransformFolderAlso, CheckButton_TransformRecursion);
         QWidget::setTabOrder(CheckButton_TransformRecursion, Button_Transform);
         QWidget::setTabOrder(Button_Transform, Button_Cancel);
@@ -583,6 +604,26 @@ public:
         QObject::connect(RadioButton_Access_Update, SIGNAL(toggled(bool)), DateEdit_AccessDate, SLOT(setDisabled(bool)));
         QObject::connect(RadioButton_Access_Update, SIGNAL(toggled(bool)), TimeEdit_AccessTime, SLOT(setDisabled(bool)));
         QObject::connect(RadioButton_Access_Update, SIGNAL(toggled(bool)), Button_AccessNow, SLOT(setDisabled(bool)));
+        QObject::connect(RadioButton_AllFileProp, SIGNAL(toggled(bool)), RadioButton_Create_Create, SLOT(setEnabled(bool)));
+        QObject::connect(RadioButton_AllFileProp, SIGNAL(toggled(bool)), RadioButton_Create_Update, SLOT(setEnabled(bool)));
+        QObject::connect(RadioButton_AllFileProp, SIGNAL(toggled(bool)), Button_CreateNow, SLOT(setEnabled(bool)));
+        QObject::connect(RadioButton_AllFileProp, SIGNAL(toggled(bool)), RadioButton_Update_Update, SLOT(setEnabled(bool)));
+        QObject::connect(RadioButton_AllFileProp, SIGNAL(toggled(bool)), RadioButton_Update_Create, SLOT(setEnabled(bool)));
+        QObject::connect(RadioButton_AllFileProp, SIGNAL(toggled(bool)), Button_UpdateNow, SLOT(setEnabled(bool)));
+        QObject::connect(RadioButton_AllFileProp, SIGNAL(toggled(bool)), RadioButton_Access_Access, SLOT(setEnabled(bool)));
+        QObject::connect(RadioButton_AllFileProp, SIGNAL(toggled(bool)), RadioButton_Access_Create, SLOT(setEnabled(bool)));
+        QObject::connect(RadioButton_AllFileProp, SIGNAL(toggled(bool)), RadioButton_Create_Create, SLOT(setChecked(bool)));
+        QObject::connect(RadioButton_AllFileProp, SIGNAL(toggled(bool)), RadioButton_Update_Update, SLOT(setChecked(bool)));
+        QObject::connect(RadioButton_AllFileProp, SIGNAL(toggled(bool)), RadioButton_Access_Access, SLOT(setChecked(bool)));
+        QObject::connect(RadioButton_OneFileProp, SIGNAL(toggled(bool)), RadioButton_Create_Access, SLOT(setChecked(bool)));
+        QObject::connect(RadioButton_OneFileProp, SIGNAL(toggled(bool)), RadioButton_Update_Access, SLOT(setChecked(bool)));
+        QObject::connect(RadioButton_OneFileProp, SIGNAL(toggled(bool)), RadioButton_Access_Update, SLOT(setChecked(bool)));
+        QObject::connect(CheckButton_CreateDateTime, SIGNAL(toggled(bool)), Button_CreateDefault, SLOT(setEnabled(bool)));
+        QObject::connect(CheckButton_UpdateDateTime, SIGNAL(toggled(bool)), Button_UpdateDefault, SLOT(setEnabled(bool)));
+        QObject::connect(CheckButton_AccessDateTime, SIGNAL(toggled(bool)), Button_AccessDefault, SLOT(setEnabled(bool)));
+        QObject::connect(RadioButton_Create_Create, SIGNAL(toggled(bool)), Button_CreateDefault, SLOT(setEnabled(bool)));
+        QObject::connect(RadioButton_Update_Update, SIGNAL(toggled(bool)), Button_UpdateDefault, SLOT(setEnabled(bool)));
+        QObject::connect(RadioButton_Access_Access, SIGNAL(toggled(bool)), Button_AccessDefault, SLOT(setEnabled(bool)));
 
         QMetaObject::connectSlotsByName(MainDialogClass);
     } // setupUi
@@ -597,22 +638,25 @@ public:
         Button_OpenDir->setText(QApplication::translate("MainDialogClass", "\345\240\264\346\211\200\343\202\222\351\226\213\343\201\217...(&F)", 0));
         RadioButton_AllFileProp->setText(QApplication::translate("MainDialogClass", "\343\201\231\343\201\271\343\201\246\343\201\256\343\203\225\343\202\241\343\202\244\343\203\253\343\202\222\345\220\214\344\270\200\343\201\256\346\227\245\346\231\202\343\201\253\345\244\211\346\233\264\343\201\231\343\202\213", 0));
         RadioButton_OneFileProp->setText(QApplication::translate("MainDialogClass", "\343\203\225\343\202\241\343\202\244\343\203\253\343\201\224\343\201\250\343\201\253\345\210\245\343\200\205\343\201\256\346\227\245\346\231\202\343\201\253\345\244\211\346\233\264\343\201\231\343\202\213", 0));
-        groupBox->setTitle(QApplication::translate("MainDialogClass", "\346\227\245\346\231\202\343\203\227\343\203\255\343\203\225\343\202\241\343\202\244\343\203\253", 0));
+        GroupBox_TimeProp->setTitle(QApplication::translate("MainDialogClass", "\346\227\245\346\231\202\343\203\227\343\203\255\343\203\225\343\202\241\343\202\244\343\203\253", 0));
         CheckButton_CreateDateTime->setText(QApplication::translate("MainDialogClass", "\344\275\234\346\210\220\346\227\245\346\231\202(&C):", 0));
         Button_CreateNow->setText(QApplication::translate("MainDialogClass", "\347\217\276\345\234\250\346\227\245\346\231\202\343\201\253", 0));
         RadioButton_Create_Create->setText(QApplication::translate("MainDialogClass", "\345\210\245\343\201\256\346\227\245\346\231\202", 0));
         RadioButton_Create_Update->setText(QApplication::translate("MainDialogClass", "\346\233\264\346\226\260\346\227\245\346\231\202\343\201\250\345\220\210\343\202\217\343\201\233", 0));
         RadioButton_Create_Access->setText(QApplication::translate("MainDialogClass", "\357\275\261\357\275\270\357\275\276\357\275\275\346\227\245\346\231\202\343\201\250\345\220\210\343\202\217\343\201\233", 0));
+        Button_CreateDefault->setText(QApplication::translate("MainDialogClass", "\343\203\207\343\203\225\343\202\251\343\203\253\343\203\210", 0));
         CheckButton_UpdateDateTime->setText(QApplication::translate("MainDialogClass", "\346\233\264\346\226\260\346\227\245\346\231\202(&U):", 0));
         Button_UpdateNow->setText(QApplication::translate("MainDialogClass", "\347\217\276\345\234\250\346\227\245\346\231\202\343\201\253", 0));
         RadioButton_Update_Update->setText(QApplication::translate("MainDialogClass", "\345\210\245\343\201\256\346\227\245\346\231\202", 0));
         RadioButton_Update_Create->setText(QApplication::translate("MainDialogClass", "\344\275\234\346\210\220\346\227\245\346\231\202\343\201\250\345\220\210\343\202\217\343\201\233", 0));
         RadioButton_Update_Access->setText(QApplication::translate("MainDialogClass", "\357\275\261\357\275\270\357\275\276\357\275\275\346\227\245\346\231\202\343\201\250\345\220\210\343\202\217\343\201\233", 0));
+        Button_UpdateDefault->setText(QApplication::translate("MainDialogClass", "\343\203\207\343\203\225\343\202\251\343\203\253\343\203\210", 0));
         CheckButton_AccessDateTime->setText(QApplication::translate("MainDialogClass", "\357\275\261\357\275\270\357\275\276\357\275\275\346\227\245\346\231\202(&E):", 0));
         Button_AccessNow->setText(QApplication::translate("MainDialogClass", "\347\217\276\345\234\250\346\227\245\346\231\202\343\201\253", 0));
         RadioButton_Access_Access->setText(QApplication::translate("MainDialogClass", "\345\210\245\343\201\256\346\227\245\346\231\202", 0));
         RadioButton_Access_Create->setText(QApplication::translate("MainDialogClass", "\344\275\234\346\210\220\346\227\245\346\231\202\343\201\250\345\220\210\343\202\217\343\201\233", 0));
         RadioButton_Access_Update->setText(QApplication::translate("MainDialogClass", "\346\233\264\346\226\260\346\227\245\346\231\202\343\201\250\345\220\210\343\202\217\343\201\233", 0));
+        Button_AccessDefault->setText(QApplication::translate("MainDialogClass", "\343\203\207\343\203\225\343\202\251\343\203\253\343\203\210", 0));
         CheckButton_TransformFolderAlso->setText(QApplication::translate("MainDialogClass", "\343\203\225\343\202\251\343\203\253\343\203\200\343\203\274\343\201\256\346\227\245\346\231\202\343\202\222\345\244\211\346\233\264\343\201\231\343\202\213", 0));
         CheckButton_TransformRecursion->setText(QApplication::translate("MainDialogClass", "\343\203\225\343\202\251\343\203\253\343\203\200\343\203\274\345\206\205\343\201\256\343\203\225\343\202\241\343\202\244\343\203\253\343\201\256\346\227\245\346\231\202\343\202\202\345\244\211\346\233\264\343\201\231\343\202\213", 0));
         Button_Transform->setText(QApplication::translate("MainDialogClass", "\345\244\211\346\233\264(&T)", 0));
