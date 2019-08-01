@@ -434,11 +434,18 @@ void MainDialog::transformAllFiles() {
 			updateListContain(fdt, *(new FileDateTime(fdt.FileDir, *CreatePDT, *UpdatePDT, *AccessPDT)));
 	}
 	if (allFileItems.size() != 1) {
-		QString msg = tr("完了しました。%1 個のファイルの変更は失敗しました、失敗項目は下記：\n").arg(failedItems.size());
-		foreach (auto item, failedItems) {
-			msg.append(QString("\n%1").arg(item));
+		QString msg = tr("完了しました。%1 個のファイルの変更は成功して、%2 個のファイルの変更は失敗しました。")
+			.arg(allFileItems.size() - failedItems.size())
+			.arg(failedItems.size());
+		if (!(failedItems.isEmpty())) {
+			msg.append(tr("失敗項目は下記：\n"));
+			foreach (auto item, failedItems) {
+				msg.append(QString("\n%1").arg(item));
+			}
+			QMessageBox::information(this, tr("エラー"), msg, QMessageBox::Yes);
 		}
-		QMessageBox::information(this, tr("エラー"), msg, QMessageBox::Yes);
+		else
+			QMessageBox::information(this, tr("成功"), msg, QMessageBox::Yes);
 	}
 }
 
@@ -469,9 +476,6 @@ void MainDialog::transformOneFile() {
 			else if (Config::IsAccessDateTimeUseUpdate)
 				AccessPDT = &(fdt.UpdateTime);
 
-// 		qDebug() << fdt.FileDir << fdt.CreateTime << fdt.UpdateTime << fdt.AccessTime;
-// 		qDebug() << fdt.FileDir << *CreatePDT << *UpdatePDT << *AccessPDT;
-
 		if (!(Util::SetFileDateTime(fdt.FileDir, CreatePDT, UpdatePDT, AccessPDT))) {
 			QMessageBox::critical(this, tr("エラー"), tr("ファイル \"%1\" の日時の変更は失敗しました。").arg(fdt.FileDir));
 			failedItems.append(fdt.FileDir);
@@ -483,13 +487,18 @@ void MainDialog::transformOneFile() {
 			updateListContain(fdt, *(new FileDateTime(fdt.FileDir, *CreatePDT, *UpdatePDT, *AccessPDT)));
 		}
 	}
-	if (allFileItems.size() != 1) {
-		QString msg = tr("完了しました。%1 個のファイルの変更は失敗しました、失敗項目は下記：\n").arg(failedItems.size());
+	QString msg = tr("完了しました。%1 個のファイルの変更は成功して、%2 個のファイルの変更は失敗しました。")
+		.arg(allFileItems.size() - failedItems.size())
+		.arg(failedItems.size());
+	if (!(failedItems.isEmpty())) {
+		msg.append(tr("失敗項目は下記：\n"));
 		foreach (auto item, failedItems) {
 			msg.append(QString("\n%1").arg(item));
 		}
 		QMessageBox::information(this, tr("エラー"), msg, QMessageBox::Yes);
 	}
+	else
+		QMessageBox::information(this, tr("成功"), msg, QMessageBox::Yes);
 }
 
 // 変更(&T)
