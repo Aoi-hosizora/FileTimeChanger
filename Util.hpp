@@ -1,11 +1,47 @@
+﻿#include <QtCore/QFile>
+#include <QtCore/QUrl>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDateTime>
 #include <Windows.h>
 #include <QDebug>
 
+#include "FileDateTime.h"
+
 class Util {
 
 public:
+
+	// 获得一个文件的属性
+	static FileDateTime getOneFileProp(QString fileName) {
+		QFile file(fileName);
+		QFileInfo finfo(file);
+
+		QDateTime createTime = finfo.created();
+		QDateTime updateTime = finfo.lastModified();
+		QDateTime accessTime = finfo.lastRead();
+
+		FileDateTime ret(fileName, createTime, updateTime, accessTime);
+		return ret;
+	}
+
+	// 从 QString[] 中获得 FileDateTime[]
+	static QList<FileDateTime> getFileProps(QList<QString> fileNames) {
+		QList<FileDateTime> ret;
+		foreach (QString fileName, fileNames)
+			ret.append(getOneFileProp(fileName));
+		return ret;
+	}
+
+	// 从 QUrl[] 中获得 FileDateTime[]
+	static QList<FileDateTime> getFileProps(QList<QUrl> urls) {
+		QList<FileDateTime> ret;
+		foreach (QUrl url, urls) {
+			QString fileName = url.toLocalFile().replace("/", "\\");
+			ret.append(getOneFileProp(fileName));
+		}
+		return ret;
+	}
+
 	// QFileTime * -> FILETIME *
 	// https://stackoverflow.com/questions/19704817/qdatetime-to-filetime
 	static FILETIME *toWinFileTime(const QDateTime *dateTime) {

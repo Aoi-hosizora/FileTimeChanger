@@ -23,7 +23,7 @@
 
 
 ### Reference
-+ Refer to the [FileAge](https://www.vector.co.jp/soft/win95/util/se233362.html)
++ Refer to the [FileAge(簡単ファイル日時変更)](https://www.vector.co.jp/soft/win95/util/se233362.html)
 + (Could not support simplified Chinese and some other symbols, LE tool also could not work well)
 
 ![Problem](./assets/Problem.jpg)

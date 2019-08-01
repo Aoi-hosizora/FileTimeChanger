@@ -16,7 +16,7 @@ class MainDialog : public QDialog {
 
 public:
 	MainDialog(QWidget *parent = nullptr);
-	~MainDialog();
+	~MainDialog() { }
 
 private slots:
 	// Buttons
@@ -69,19 +69,25 @@ private:
 	Ui::MainDialogClass ui;
 	QList<FileDateTime> FileLists;
 
+	// DLG
 	QList<QString> openFileDlg();
-	FileDateTime getOneFileProp(QString);
-	QList<FileDateTime> getFileProps(QList<QString>);
-	QList<FileDateTime> getFileProps(QList<QUrl>);
+
+	// LIST
 	void addFileToListView(QList<FileDateTime>);
 	void updateListLabel();
+
+	// SEL
 	int getSelectedItemCount();
 	QList<QString> getSelectedFileDir();
 	QList<FileDateTime> getSelectedFileDateTime();
 	FileDateTime *getSelectedFirstFileDateTime();
 	FileDateTime *getFileDateTimeFromDir(QString);
+
+	// UPDATE
 	void setDateTimeOfOneFile(FileDateTime);
 	void updateListContain(FileDateTime, FileDateTime);
+
+	// TRANS
 	void transformAllFiles();
 	void transformOneFile();
 };

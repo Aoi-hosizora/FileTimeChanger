@@ -14,6 +14,12 @@
 
 MainDialog::MainDialog(QWidget *parent) : QDialog(parent) {
 	ui.setupUi(this);
+
+	setWindowFlags(Qt::Window
+		| Qt::WindowCloseButtonHint
+		| Qt::WindowMinimizeButtonHint 
+		| Qt::WindowStaysOnTopHint);
+
 	on_ListView_Files_itemSelectionChanged();
 
 	connect(ui.DateEdit_CreateDate, SIGNAL(dateChanged(QDate)), this, SLOT(updateDateTime()));
@@ -29,10 +35,6 @@ MainDialog::MainDialog(QWidget *parent) : QDialog(parent) {
 	ui.CheckButton_AccessDateTime->setChecked(false);
 
 	ui.ListView_Files->setAcceptDrops(true);
-}
-
-MainDialog::~MainDialog() {
-
 }
 
 // 列表拖放
@@ -56,7 +58,7 @@ void MainDialog::on_ListView_Files_dropEvent(QDropEvent *event) {
 	if(urls.isEmpty())
 		return;
 
-	addFileToListView(getFileProps(urls));
+	addFileToListView(Util::getFileProps(urls));
 
 	event->setDropAction(Qt::CopyAction);
 	event->accept();
@@ -65,6 +67,7 @@ void MainDialog::on_ListView_Files_dropEvent(QDropEvent *event) {
 #pragma endregion Drops
 
 // 文件操作
+// openFileDlg Button_SelectFiles Button_AddFiles Button_DeleteFile Button_OpenDir
 #pragma region FileList 
 
 // 打开 QFileDlg 选择文件
@@ -81,44 +84,13 @@ QList<QString> MainDialog::openFileDlg() {
 		return *(new QList<QString>());
 }
 
-// 获得一个文件的属性
-FileDateTime MainDialog::getOneFileProp(QString fileName) {
-	QFile file(fileName);
-	QFileInfo finfo(file);
-
-	QDateTime createTime = finfo.created();
-	QDateTime updateTime = finfo.lastModified();
-	QDateTime accessTime = finfo.lastRead();
-
-	FileDateTime ret(fileName, createTime, updateTime, accessTime);
-	return ret;
-}
-
-// 从 QString[] 中获得 FileDateTime[]
-QList<FileDateTime> MainDialog::getFileProps(QList<QString> fileNames) {
-	QList<FileDateTime> ret;
-	foreach (QString fileName, fileNames)
-		ret.append(getOneFileProp(fileName));
-	return ret;
-}
-
-// 从 QUrl[] 中获得 FileDateTime[]
-QList<FileDateTime> MainDialog::getFileProps(QList<QUrl> urls) {
-	QList<FileDateTime> ret;
-	foreach (QUrl url, urls) {
-		QString fileName = url.toLocalFile().replace("/", "\\");
-		ret.append(getOneFileProp(fileName));
-	}
-	return ret;
-}
-
 // 選択...(&O)
 void MainDialog::on_Button_SelectFiles_clicked() {
 	auto filenameList = openFileDlg();
 	if (!filenameList.empty()) {
 		ui.ListView_Files->clear();
 		FileLists.clear();
-		addFileToListView(getFileProps(filenameList));
+		addFileToListView(Util::getFileProps(filenameList));
 	}
 }
 
@@ -126,7 +98,7 @@ void MainDialog::on_Button_SelectFiles_clicked() {
 void MainDialog::on_Button_AddFiles_clicked() {
 	auto filenameList = openFileDlg();
 	if (!filenameList.empty()) {
-		addFileToListView(getFileProps(filenameList));
+		addFileToListView(Util::getFileProps(filenameList));
 	}
 }
 
@@ -149,6 +121,8 @@ void MainDialog::on_Button_OpenDir_clicked() {
 #pragma endregion FileList
 
 // 列表操作
+// addFileToListView updateListLabel updateListContain ListView_Files
+// getSelectedItemCount getSelectedFileDir getSelectedFileDateTime getSelectedFirstFileDateTime getFileDateTimeFromDir
 #pragma region ListView
 
 // 将 FileDateTime[] 不重复添加到列表中
@@ -241,6 +215,8 @@ FileDateTime *MainDialog::getFileDateTimeFromDir(QString dir) {
 #pragma endregion ListView
 
 // 日期操作
+// Button_CreateNow Button_UpdateNow Button_AccessNow Button_CreateDefault Button_UpdateDefault Button_AccessDefault
+// setDateTimeOfOneFile updateDateTime
 #pragma region DateTime
 
 // 作成日時(&C) 現在日時に
@@ -331,6 +307,7 @@ void MainDialog::updateDateTime() {
 #pragma endregion DateTime
 
 // 配置操作和一些 UI 交互
+// RadioButton CheckButton
 #pragma region Toggled
 
 // すべてのファイルを同一の日時に変更する
@@ -450,6 +427,7 @@ void MainDialog::on_CheckButton_TransformRecursion_toggled(bool isChecked) {
 #pragma endregion Toggled
 
 // 转换操作
+// transformAllFiles transformOneFile Button_Transform
 #pragma region Transform
 
 // すべてのファイルを同一の日時に変更する
