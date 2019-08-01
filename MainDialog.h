@@ -6,6 +6,7 @@
 #endif
 
 #include <QtWidgets/QDialog>
+#include <QtGui>
 
 #include "ui_MainDialog.h"
 #include "FileDateTime.h"
@@ -59,13 +60,19 @@ private slots:
 	// ListView
 	void on_ListView_Files_itemSelectionChanged();
 	void updateDateTime();
+
+	void on_ListView_Files_dragEnterEvent(QDragEnterEvent *);
+	void on_ListView_Files_dragMoveEvent(QDragMoveEvent *);
+	void on_ListView_Files_dropEvent(QDropEvent *);
 	
 private:
 	Ui::MainDialogClass ui;
 	QList<FileDateTime> FileLists;
 
 	QList<QString> openFileDlg();
+	FileDateTime getOneFileProp(QString);
 	QList<FileDateTime> getFileProps(QList<QString>);
+	QList<FileDateTime> getFileProps(QList<QUrl>);
 	void addFileToListView(QList<FileDateTime>);
 	void updateListLabel();
 	int getSelectedItemCount();

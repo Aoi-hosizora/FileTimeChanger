@@ -1,6 +1,7 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QDateTime>
 #include <Windows.h>
+#include <QDebug>
 
 class Util {
 
@@ -30,6 +31,10 @@ public:
 		FILETIME *CreateFT = toWinFileTime(CreateDT);
 		FILETIME *UpdateFT = toWinFileTime(UpdateDT);
 		FILETIME *AccessFT = toWinFileTime(AccessDT);
-		return SetFileTime(hFile, CreateFT, AccessFT, UpdateFT);
+		bool ret = SetFileTime(hFile, CreateFT, AccessFT, UpdateFT);
+		if (hFile != NULL)
+			CloseHandle(hFile);
+		delete CreateFT, UpdateFT, AccessFT;
+		return ret;
 	}
 };

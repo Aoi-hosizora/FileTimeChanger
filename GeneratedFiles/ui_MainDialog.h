@@ -21,12 +21,12 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QListWidget>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTimeEdit>
 #include <QtWidgets/QVBoxLayout>
+#include "dropablelistwidget.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -37,7 +37,7 @@ public:
     QHBoxLayout *horizontalLayout_8;
     QLabel *Label_FileListCnt;
     QSpacerItem *horizontalSpacer_11;
-    QListWidget *ListView_Files;
+    DropableListWidget *ListView_Files;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
     QPushButton *Button_SelectFiles;
@@ -135,8 +135,11 @@ public:
 
         verticalLayout_7->addLayout(horizontalLayout_8);
 
-        ListView_Files = new QListWidget(MainDialogClass);
+        ListView_Files = new DropableListWidget(MainDialogClass);
         ListView_Files->setObjectName(QStringLiteral("ListView_Files"));
+        ListView_Files->setDragEnabled(false);
+        ListView_Files->setDragDropMode(QAbstractItemView::DropOnly);
+        ListView_Files->setDefaultDropAction(Qt::CopyAction);
         ListView_Files->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
         verticalLayout_7->addWidget(ListView_Files);

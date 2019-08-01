@@ -3,6 +3,8 @@
 #include <QDebug>
 #include <QtCore/QProcess>
 #include <QtWidgets/QMessageBox>
+#include <QtGui>
+#include <QtCore/QMimeData>
 
 #include "MainDialog.h"
 #include "FileDateTime.h"
@@ -25,11 +27,42 @@ MainDialog::MainDialog(QWidget *parent) : QDialog(parent) {
 	ui.CheckButton_CreateDateTime->setChecked(false);
 	ui.CheckButton_UpdateDateTime->setChecked(false);
 	ui.CheckButton_AccessDateTime->setChecked(false);
+
+	ui.ListView_Files->setAcceptDrops(true);
 }
 
 MainDialog::~MainDialog() {
 
 }
+
+// 列表拖放
+#pragma region Drops
+
+void MainDialog::on_ListView_Files_dragEnterEvent(QDragEnterEvent *event) {
+	if (event->mimeData()->hasFormat("text/uri-list"))
+		event->acceptProposedAction();
+
+	event->setDropAction(Qt::CopyAction);
+	event->accept();
+}
+
+void MainDialog::on_ListView_Files_dragMoveEvent(QDragMoveEvent *event) {
+	event->setDropAction(Qt::CopyAction);
+	event->accept();
+}
+
+void MainDialog::on_ListView_Files_dropEvent(QDropEvent *event) {
+	QList<QUrl> urls = event->mimeData()->urls();
+	if(urls.isEmpty())
+		return;
+
+	addFileToListView(getFileProps(urls));
+
+	event->setDropAction(Qt::CopyAction);
+	event->accept();
+}
+
+#pragma endregion Drops
 
 // 文件操作
 #pragma region FileList 
@@ -48,19 +81,33 @@ QList<QString> MainDialog::openFileDlg() {
 		return *(new QList<QString>());
 }
 
+// 获得一个文件的属性
+FileDateTime MainDialog::getOneFileProp(QString fileName) {
+	QFile file(fileName);
+	QFileInfo finfo(file);
+
+	QDateTime createTime = finfo.created();
+	QDateTime updateTime = finfo.lastModified();
+	QDateTime accessTime = finfo.lastRead();
+
+	FileDateTime ret(fileName, createTime, updateTime, accessTime);
+	return ret;
+}
+
 // 从 QString[] 中获得 FileDateTime[]
 QList<FileDateTime> MainDialog::getFileProps(QList<QString> fileNames) {
 	QList<FileDateTime> ret;
-	foreach (QString fileName, fileNames) {
-		auto file = new QFile(fileName);
-		auto finfo = new QFileInfo(*file);
+	foreach (QString fileName, fileNames)
+		ret.append(getOneFileProp(fileName));
+	return ret;
+}
 
-		QDateTime createTime = finfo->created();
-		QDateTime updateTime = finfo->lastModified();
-		QDateTime accessTime = finfo->lastRead();
-
-		auto item = new FileDateTime(fileName, createTime, updateTime, accessTime);
-		ret.append(*item);
+// 从 QUrl[] 中获得 FileDateTime[]
+QList<FileDateTime> MainDialog::getFileProps(QList<QUrl> urls) {
+	QList<FileDateTime> ret;
+	foreach (QUrl url, urls) {
+		QString fileName = url.toLocalFile().replace("/", "\\");
+		ret.append(getOneFileProp(fileName));
 	}
 	return ret;
 }
@@ -422,6 +469,9 @@ void MainDialog::transformAllFiles() {
 	auto allFileItems = getSelectedFileDateTime();
 	foreach (auto fdt, allFileItems) {
 
+		// Update Prop
+		// fdt = getOneFileProp(fdt.FileDir);
+
 		CreatePDT = (CreatePDT == nullptr) ? &fdt.CreateTime : CreatePDT;
 		UpdatePDT = (UpdatePDT == nullptr) ? &fdt.UpdateTime : UpdatePDT;
 		AccessPDT = (AccessPDT == nullptr) ? &fdt.AccessTime : AccessPDT;
@@ -433,20 +483,19 @@ void MainDialog::transformAllFiles() {
 		else 
 			updateListContain(fdt, *(new FileDateTime(fdt.FileDir, *CreatePDT, *UpdatePDT, *AccessPDT)));
 	}
-	if (allFileItems.size() != 1) {
-		QString msg = tr("完了しました。%1 個のファイルの変更は成功して、%2 個のファイルの変更は失敗しました。")
-			.arg(allFileItems.size() - failedItems.size())
-			.arg(failedItems.size());
-		if (!(failedItems.isEmpty())) {
-			msg.append(tr("失敗項目は下記：\n"));
-			foreach (auto item, failedItems) {
-				msg.append(QString("\n%1").arg(item));
-			}
-			QMessageBox::information(this, tr("エラー"), msg, QMessageBox::Yes);
+	QString msg = tr("完了しました。%1 個のファイルの変更は成功して、%2 個のファイルの変更は失敗しました。")
+		.arg(allFileItems.size() - failedItems.size())
+		.arg(failedItems.size());
+	if (!(failedItems.isEmpty())) {
+		msg.append(tr("失敗項目は下記：\n"));
+		foreach (auto item, failedItems) {
+			msg.append(QString("\n%1").arg(item));
 		}
-		else
-			QMessageBox::information(this, tr("成功"), msg, QMessageBox::Yes);
+		QMessageBox::information(this, tr("エラー"), msg, QMessageBox::Yes);
 	}
+	else
+		QMessageBox::information(this, tr("成功"), msg, QMessageBox::Yes);
+	delete CreatePDT, UpdatePDT, AccessPDT;
 }
 
 // ファイルごとに別々の日時に変更する
@@ -454,6 +503,10 @@ void MainDialog::transformOneFile() {
 	QList<QString> failedItems;
 	auto allFileItems = getSelectedFileDateTime();
 	foreach (auto fdt, allFileItems) {
+
+		// Update Prop
+		// fdt = getOneFileProp(fdt.FileDir);
+
 		QDateTime *CreatePDT = &(fdt.CreateTime);
 		QDateTime *UpdatePDT = &(fdt.UpdateTime);
 		QDateTime *AccessPDT = &(fdt.AccessTime);
@@ -486,6 +539,8 @@ void MainDialog::transformOneFile() {
 			AccessPDT = (AccessPDT == nullptr) ? &fdt.AccessTime : AccessPDT;
 			updateListContain(fdt, *(new FileDateTime(fdt.FileDir, *CreatePDT, *UpdatePDT, *AccessPDT)));
 		}
+
+		// delete CreatePDT, UpdatePDT, AccessPDT;
 	}
 	QString msg = tr("完了しました。%1 個のファイルの変更は成功して、%2 個のファイルの変更は失敗しました。")
 		.arg(allFileItems.size() - failedItems.size())

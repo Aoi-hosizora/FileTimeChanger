@@ -1,4 +1,5 @@
 #include <QtWidgets/QApplication>
+// #include <vld.h>
 
 #include "MainDialog.h"
 

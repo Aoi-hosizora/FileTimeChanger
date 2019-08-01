@@ -47,7 +47,16 @@
     </layout>
    </item>
    <item>
-    <widget class="QListWidget" name="ListView_Files">
+    <widget class="DropableListWidget" name="ListView_Files">
+     <property name="dragEnabled">
+      <bool>false</bool>
+     </property>
+     <property name="dragDropMode">
+      <enum>QAbstractItemView::DropOnly</enum>
+     </property>
+     <property name="defaultDropAction">
+      <enum>Qt::CopyAction</enum>
+     </property>
      <property name="selectionMode">
       <enum>QAbstractItemView::ExtendedSelection</enum>
      </property>
@@ -629,6 +638,13 @@
   <zorder>line</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>DropableListWidget</class>
+   <extends>QListWidget</extends>
+   <header>dropablelistwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>ListView_Files</tabstop>
   <tabstop>Button_SelectFiles</tabstop>
