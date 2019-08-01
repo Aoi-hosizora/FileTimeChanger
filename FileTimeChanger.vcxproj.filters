@@ -50,6 +50,9 @@
     <ClCompile Include="GeneratedFiles\qrc_MainDialog.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="Util.hpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="MainDialog.h">
@@ -70,7 +73,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Config.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

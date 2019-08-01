@@ -85,6 +85,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainDialog.cpp" />
+    <ClCompile Include="Util.hpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="MainDialog.h">

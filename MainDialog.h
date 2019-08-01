@@ -74,6 +74,9 @@ private:
 	FileDateTime *getSelectedFirstFileDateTime();
 	FileDateTime *getFileDateTimeFromDir(QString);
 	void setDateTimeOfOneFile(FileDateTime);
+	void updateListContain(FileDateTime, FileDateTime);
+	void transformAllFiles();
+	void transformOneFile();
 };
 
 #endif // MAINDIALOG_H

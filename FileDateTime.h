@@ -12,6 +12,13 @@ public:
 	QDateTime CreateTime;
 	QDateTime UpdateTime;
 	QDateTime AccessTime;
+
+	bool operator==(FileDateTime fdt) {
+		return this->FileDir == fdt.FileDir &&
+			this->CreateTime == fdt.CreateTime &&
+			this->UpdateTime == fdt.UpdateTime &&
+			this->AccessTime == fdt.AccessTime;
+	}
 };
 
 #endif // FILEDATETIME_H

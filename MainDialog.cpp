@@ -2,10 +2,13 @@
 #include <QtWidgets/QFileDialog>
 #include <QDebug>
 #include <QtCore/QProcess>
+#include <QtWidgets/QMessageBox>
 
 #include "MainDialog.h"
 #include "FileDateTime.h"
 #include "Config.hpp"
+#include "Util.hpp"
+
 
 MainDialog::MainDialog(QWidget *parent) : QDialog(parent) {
 	ui.setupUi(this);
@@ -19,6 +22,9 @@ MainDialog::MainDialog(QWidget *parent) : QDialog(parent) {
 	connect(ui.TimeEdit_AccessTime, SIGNAL(timeChanged(QTime)), this, SLOT(updateDateTime()));
 
 	ui.Button_SelectFiles->setDefault(false);
+	ui.CheckButton_CreateDateTime->setChecked(false);
+	ui.CheckButton_UpdateDateTime->setChecked(false);
+	ui.CheckButton_AccessDateTime->setChecked(false);
 }
 
 MainDialog::~MainDialog() {
@@ -37,7 +43,7 @@ QList<QString> MainDialog::openFileDlg() {
 	// openFileDlg->setAcceptMode(QFileDialog::AcceptOpen);
 
 	if (openFileDlg->exec()) 
-		return openFileDlg->selectedFiles();
+		return openFileDlg->selectedFiles().replaceInStrings("/", "\\");
 	else
 		return *(new QList<QString>());
 }
@@ -115,6 +121,11 @@ void MainDialog::updateListLabel() {
 	ui.Label_FileListCnt->setText(tr("ファイルリスト (%1/%2)(&L):").arg(selcnt).arg(allcnt));
 }
 
+// 修改后将数据修改
+void MainDialog::updateListContain(FileDateTime fileprop1, FileDateTime fileprop2) {
+	FileLists.replace(FileLists.indexOf(fileprop1), fileprop2);
+}
+
 // 列表选择更改
 void MainDialog::on_ListView_Files_itemSelectionChanged() {
 	int cnt = getSelectedItemCount();
@@ -132,6 +143,8 @@ void MainDialog::on_ListView_Files_itemSelectionChanged() {
 		if (fdt != nullptr)
 			setDateTimeOfOneFile(*fdt);
 	}
+	if (cnt == 1)
+		ui.RadioButton_AllFileProp->setChecked(true);
 
 	updateListLabel();
 }
@@ -276,11 +289,15 @@ void MainDialog::updateDateTime() {
 // すべてのファイルを同一の日時に変更する
 void MainDialog::on_RadioButton_AllFileProp_toggled(bool isChecked) {
 	Config::IsAllFileProp = isChecked;
+
+	ui.RadioButton_Create_Create->setEnabled(Config::IsCreateDateTimeTransform && isChecked);
+	ui.RadioButton_Update_Update->setEnabled(Config::IsUpdateDateTimeTransform && isChecked);
+	ui.RadioButton_Access_Access->setEnabled(Config::IsAccessDateTimeTransform && isChecked);
 }
 
 // ファイルごとに別々の日時に変更する
 void MainDialog::on_RadioButton_OneFileProp_toggled(bool isChecked) {
-	Config::IsAllFileProp = isChecked;
+	Config::IsAllFileProp = !isChecked;
 }
 
 // 作成日時(&C) UI <<
@@ -291,6 +308,8 @@ void MainDialog::on_CheckButton_CreateDateTime_toggled(bool isChecked) {
 	ui.TimeEdit_CreateTime->setEnabled(Config::IsCreateDateTimeUseCreate && isChecked);
 	ui.Button_CreateNow->setEnabled(Config::IsCreateDateTimeUseCreate && isChecked);
 	ui.Button_CreateDefault->setEnabled(Config::IsCreateDateTimeUseCreate && isChecked);
+
+	ui.RadioButton_Create_Create->setEnabled(Config::IsAllFileProp && isChecked);
 }
 
 // 更新日時(&U) UI <<
@@ -301,6 +320,8 @@ void MainDialog::on_CheckButton_UpdateDateTime_toggled(bool isChecked) {
 	ui.TimeEdit_UpdateTime->setEnabled(Config::IsUpdateDateTimeUseUpdate && isChecked);
 	ui.Button_UpdateNow->setEnabled(Config::IsUpdateDateTimeUseUpdate && isChecked);
 	ui.Button_UpdateDefault->setEnabled(Config::IsUpdateDateTimeUseUpdate && isChecked);
+
+	ui.RadioButton_Update_Update->setEnabled(Config::IsAllFileProp && isChecked);
 }
 
 // ｱｸｾｽ日時(&E) UI <<
@@ -311,6 +332,8 @@ void MainDialog::on_CheckButton_AccessDateTime_toggled(bool isChecked) {
 	ui.TimeEdit_AccessTime->setEnabled(Config::IsAccessDateTimeUseAccess && isChecked);
 	ui.Button_AccessNow->setEnabled(Config::IsAccessDateTimeUseAccess && isChecked);
 	ui.Button_AccessDefault->setEnabled(Config::IsAccessDateTimeUseAccess && isChecked);
+
+	ui.RadioButton_Access_Access->setEnabled(Config::IsAllFileProp && isChecked);
 }
 
 // 作成日時(&C) 別の日時
@@ -382,9 +405,101 @@ void MainDialog::on_CheckButton_TransformRecursion_toggled(bool isChecked) {
 // 转换操作
 #pragma region Transform
 
+// すべてのファイルを同一の日時に変更する
+void MainDialog::transformAllFiles() {
+	QDateTime *CreatePDT = nullptr;
+	QDateTime *UpdatePDT = nullptr;
+	QDateTime *AccessPDT = nullptr;
+
+	if (Config::IsCreateDateTimeTransform)
+		CreatePDT = new QDateTime(ui.DateEdit_CreateDate->date(), ui.TimeEdit_CreateTime->time());
+	if (Config::IsUpdateDateTimeTransform)
+		UpdatePDT = new QDateTime(ui.DateEdit_UpdateDate->date(), ui.TimeEdit_UpdateTime->time());
+	if (Config::IsAccessDateTimeTransform)
+		AccessPDT = new QDateTime(ui.DateEdit_AccessDate->date(), ui.TimeEdit_AccessTime->time());
+
+	QList<QString> failedItems;
+	auto allFileItems = getSelectedFileDateTime();
+	foreach (auto fdt, allFileItems) {
+
+		CreatePDT = (CreatePDT == nullptr) ? &fdt.CreateTime : CreatePDT;
+		UpdatePDT = (UpdatePDT == nullptr) ? &fdt.UpdateTime : UpdatePDT;
+		AccessPDT = (AccessPDT == nullptr) ? &fdt.AccessTime : AccessPDT;
+
+		if (!(Util::SetFileDateTime(fdt.FileDir, CreatePDT, UpdatePDT, AccessPDT))) {
+			QMessageBox::critical(this, tr("エラー"), tr("ファイル \"%1\" の日時の変更は失敗しました。").arg(fdt.FileDir));
+			failedItems.append(fdt.FileDir);
+		}
+		else 
+			updateListContain(fdt, *(new FileDateTime(fdt.FileDir, *CreatePDT, *UpdatePDT, *AccessPDT)));
+	}
+	if (allFileItems.size() != 1) {
+		QString msg = tr("完了しました。%1 個のファイルの変更は失敗しました、失敗項目は下記：\n").arg(failedItems.size());
+		foreach (auto item, failedItems) {
+			msg.append(QString("\n%1").arg(item));
+		}
+		QMessageBox::information(this, tr("エラー"), msg, QMessageBox::Yes);
+	}
+}
+
+// ファイルごとに別々の日時に変更する
+void MainDialog::transformOneFile() {
+	QList<QString> failedItems;
+	auto allFileItems = getSelectedFileDateTime();
+	foreach (auto fdt, allFileItems) {
+		QDateTime *CreatePDT = &(fdt.CreateTime);
+		QDateTime *UpdatePDT = &(fdt.UpdateTime);
+		QDateTime *AccessPDT = &(fdt.AccessTime);
+
+		if (Config::IsCreateDateTimeTransform)
+			if (Config::IsCreateDateTimeUseUpdate)
+				CreatePDT = &(fdt.UpdateTime);
+			else if (Config::IsCreateDateTimeUseAccess)
+				CreatePDT = &(fdt.AccessTime);
+
+		if (Config::IsUpdateDateTimeTransform)
+			if (Config::IsUpdateDateTimeUseCreate)
+				UpdatePDT = &(fdt.CreateTime);
+			else if (Config::IsUpdateDateTimeUseAccess)
+				UpdatePDT = &(fdt.AccessTime);
+
+		if (Config::IsAccessDateTimeTransform)
+			if (Config::IsAccessDateTimeUseCreate)
+				AccessPDT = &(fdt.CreateTime);
+			else if (Config::IsAccessDateTimeUseUpdate)
+				AccessPDT = &(fdt.UpdateTime);
+
+// 		qDebug() << fdt.FileDir << fdt.CreateTime << fdt.UpdateTime << fdt.AccessTime;
+// 		qDebug() << fdt.FileDir << *CreatePDT << *UpdatePDT << *AccessPDT;
+
+		if (!(Util::SetFileDateTime(fdt.FileDir, CreatePDT, UpdatePDT, AccessPDT))) {
+			QMessageBox::critical(this, tr("エラー"), tr("ファイル \"%1\" の日時の変更は失敗しました。").arg(fdt.FileDir));
+			failedItems.append(fdt.FileDir);
+		}
+		else {
+			CreatePDT = (CreatePDT == nullptr) ? &fdt.CreateTime : CreatePDT;
+			UpdatePDT = (UpdatePDT == nullptr) ? &fdt.UpdateTime : UpdatePDT;
+			AccessPDT = (AccessPDT == nullptr) ? &fdt.AccessTime : AccessPDT;
+			updateListContain(fdt, *(new FileDateTime(fdt.FileDir, *CreatePDT, *UpdatePDT, *AccessPDT)));
+		}
+	}
+	if (allFileItems.size() != 1) {
+		QString msg = tr("完了しました。%1 個のファイルの変更は失敗しました、失敗項目は下記：\n").arg(failedItems.size());
+		foreach (auto item, failedItems) {
+			msg.append(QString("\n%1").arg(item));
+		}
+		QMessageBox::information(this, tr("エラー"), msg, QMessageBox::Yes);
+	}
+}
+
 // 変更(&T)
 void MainDialog::on_Button_Transform_clicked() {
-
+	if (Config::IsAllFileProp) 
+		// 直接将UI数据写入
+		transformAllFiles();
+	else 
+		// 为每个文件更新
+		transformOneFile();
 }
 
 #pragma endregion Transform

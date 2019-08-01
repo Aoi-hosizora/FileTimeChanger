@@ -278,7 +278,7 @@
            <item>
             <widget class="QPushButton" name="Button_CreateDefault">
              <property name="text">
-              <string>デフォルト</string>
+              <string>デフォルトに</string>
              </property>
             </widget>
            </item>
@@ -397,7 +397,7 @@
            <item>
             <widget class="QPushButton" name="Button_UpdateDefault">
              <property name="text">
-              <string>デフォルト</string>
+              <string>デフォルトに</string>
              </property>
             </widget>
            </item>
@@ -516,7 +516,7 @@
            <item>
             <widget class="QPushButton" name="Button_AccessDefault">
              <property name="text">
-              <string>デフォルト</string>
+              <string>デフォルトに</string>
              </property>
             </widget>
            </item>
@@ -1425,22 +1425,6 @@
   <connection>
    <sender>RadioButton_AllFileProp</sender>
    <signal>toggled(bool)</signal>
-   <receiver>RadioButton_Create_Update</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>194</x>
-     <y>277</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>164</x>
-     <y>393</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>RadioButton_AllFileProp</sender>
-   <signal>toggled(bool)</signal>
    <receiver>Button_CreateNow</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
@@ -1473,22 +1457,6 @@
   <connection>
    <sender>RadioButton_AllFileProp</sender>
    <signal>toggled(bool)</signal>
-   <receiver>RadioButton_Update_Create</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>99</x>
-     <y>273</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>148</x>
-     <y>464</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>RadioButton_AllFileProp</sender>
-   <signal>toggled(bool)</signal>
    <receiver>Button_UpdateNow</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
@@ -1515,22 +1483,6 @@
     <hint type="destinationlabel">
      <x>63</x>
      <y>544</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>RadioButton_AllFileProp</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>RadioButton_Access_Create</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>98</x>
-     <y>273</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>155</x>
-     <y>538</y>
     </hint>
    </hints>
   </connection>
@@ -1585,7 +1537,7 @@
   <connection>
    <sender>RadioButton_OneFileProp</sender>
    <signal>toggled(bool)</signal>
-   <receiver>RadioButton_Create_Access</receiver>
+   <receiver>RadioButton_Create_Update</receiver>
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1601,7 +1553,7 @@
   <connection>
    <sender>RadioButton_OneFileProp</sender>
    <signal>toggled(bool)</signal>
-   <receiver>RadioButton_Update_Access</receiver>
+   <receiver>RadioButton_Update_Create</receiver>
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1617,7 +1569,7 @@
   <connection>
    <sender>RadioButton_OneFileProp</sender>
    <signal>toggled(bool)</signal>
-   <receiver>RadioButton_Access_Update</receiver>
+   <receiver>RadioButton_Access_Create</receiver>
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
