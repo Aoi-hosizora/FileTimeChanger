@@ -42,6 +42,13 @@ public:
 		return ret;
 	}
 
+	// 判断选择的项目是否是文件夹
+	static bool isFolder(QString url) {
+		QFile file(url);
+		QFileInfo finfo(file);
+		return finfo.isDir();
+	}
+
 	// QFileTime * -> FILETIME *
 	// https://stackoverflow.com/questions/19704817/qdatetime-to-filetime
 	static FILETIME *toWinFileTime(const QDateTime *dateTime) {

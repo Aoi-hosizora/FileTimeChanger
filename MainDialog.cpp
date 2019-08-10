@@ -5,12 +5,12 @@
 #include <QtWidgets/QMessageBox>
 #include <QtGui>
 #include <QtCore/QMimeData>
+#include <QtWidgets/QTreeView>
 
 #include "MainDialog.h"
 #include "FileDateTime.h"
 #include "Config.hpp"
 #include "Util.hpp"
-
 
 MainDialog::MainDialog(QWidget *parent) : QDialog(parent) {
 	ui.setupUi(this);
@@ -35,6 +35,9 @@ MainDialog::MainDialog(QWidget *parent) : QDialog(parent) {
 	ui.CheckButton_AccessDateTime->setChecked(false);
 
 	ui.ListView_Files->setAcceptDrops(true);
+
+	// TODO
+	ui.CheckButton_TransformRecursion->setEnabled(false);
 }
 
 // 列表拖放
@@ -447,6 +450,10 @@ void MainDialog::transformAllFiles() {
 	auto allFileItems = getSelectedFileDateTime();
 	foreach (auto fdt, allFileItems) {
 
+		// フォルダーの日時を変更する
+		if (!(Config::IsTransformFolderAlso) && Util::isFolder(fdt.FileDir))
+			continue;
+
 		// Update Prop
 		// fdt = getOneFileProp(fdt.FileDir);
 
@@ -481,6 +488,10 @@ void MainDialog::transformOneFile() {
 	QList<QString> failedItems;
 	auto allFileItems = getSelectedFileDateTime();
 	foreach (auto fdt, allFileItems) {
+
+		// フォルダーの日時を変更する
+		if (!(Config::IsTransformFolderAlso) && Util::isFolder(fdt.FileDir))
+			continue;
 
 		// Update Prop
 		// fdt = getOneFileProp(fdt.FileDir);
